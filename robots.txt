@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://bondarenko-pryaniki.online/sitemap.xml
+Sitemap: https://bondarenko-pryaniki.ru/sitemap.xml
