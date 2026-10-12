@@ -1367,6 +1367,7 @@ document.getElementById('send').onclick = async () => {
     if(window.ym && window.__ym_id) ym(window.__ym_id, 'reachGoal', 'ZAYAVKA');   // цель в Метрике
     ['f-name','f-tel','f-when','f-msg'].forEach(id => document.getElementById(id).value = '');
     document.getElementById('f-ok').checked = false;
+    cart = []; renderCart();   // заказ ушёл — корзина очищается
   }catch(e){
     msg.className = 'form-msg err';
     msg.innerHTML = 'Не удалось отправить. Напишите в WhatsApp <a href="https://wa.me/79996984906" target="_blank" rel="noopener">+7 (999) 698-49-06</a> или на почту <a href="mailto:' + ORDER_EMAIL + '">' + ORDER_EMAIL + '</a>';
