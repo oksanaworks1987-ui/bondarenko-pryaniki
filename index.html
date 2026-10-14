@@ -565,6 +565,43 @@ a.soc:hover,.foot-grid a.soc:hover{transform:translateY(-2px);box-shadow:0 6px 1
 .s-tel{--c:#D63B52}.s-mail{--c:#C98A3D}.s-wa{--c:#25A85A}.s-tg{--c:#2A9BD8}.s-max{--c:#7B4FD6}
 .s-ig{--c:#D6336C}.s-ig .soc-i{background:linear-gradient(45deg,#F5A623,#E1306C 55%,#8A3AB9)}
 @media (max-width:420px){.soc-row{grid-template-columns:1fr}}
+
+/* ---- вопросы и ответы ---- */
+.faq-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:start}
+.faq-group{background:#fff;border:1px solid var(--line);border-radius:22px;padding:24px 24px 14px;box-shadow:var(--shadow)}
+.faq-group h3{font-size:1.15rem;margin:0 0 10px;color:var(--berry)}
+.faq-q{border-top:1px solid var(--line)}
+.faq-q:first-of-type{border-top:0}
+.faq-q summary{list-style:none;cursor:pointer;padding:13px 32px 13px 0;font-weight:600;position:relative;line-height:1.35}
+.faq-q summary::-webkit-details-marker{display:none}
+.faq-q summary::after{content:"+";position:absolute;right:4px;top:50%;transform:translateY(-50%);font-size:1.4rem;font-weight:400;color:var(--berry);transition:transform .2s}
+.faq-q[open] summary::after{transform:translateY(-50%) rotate(45deg)}
+.faq-q p{margin:0 0 14px;color:var(--icing-dim);font-size:.95rem;line-height:1.55}
+@media (max-width:860px){.faq-grid{grid-template-columns:1fr}.faq-group{padding:20px 18px 10px}}
+
+/* ---- отзывы ---- */
+.rv-layout{display:grid;grid-template-columns:1.25fr 1fr;gap:26px;align-items:start}
+.rv-list{display:grid;gap:16px}
+.rv-card{background:#fff;border:1px solid var(--line);border-radius:22px;padding:22px 24px;box-shadow:var(--shadow)}
+.rv-card .rv-top{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:6px;flex-wrap:wrap}
+.rv-card b{font-size:1.02rem}
+.rv-card .rv-st{color:#F2A900;letter-spacing:2px;font-size:1rem}
+.rv-card .rv-what{font-size:.84rem;color:var(--caramel);margin:0 0 8px}
+.rv-card p{margin:0;color:var(--icing-dim);line-height:1.6}
+.rv-empty{background:rgba(255,255,255,.92);border:1px dashed rgba(214,59,82,.35);border-radius:22px;padding:34px 28px;text-align:center}
+.rv-empty .rv-big{font-size:2.2rem;color:#F2A900;letter-spacing:4px}
+.rv-empty h3{margin:8px 0 8px;font-size:1.2rem}
+.rv-empty p{margin:0 auto;max-width:40ch;color:var(--icing-dim);line-height:1.55}
+.rv-form h3{font-size:1.3rem;margin:0 0 6px}
+.rv-sub{margin:0 0 18px;font-size:.93rem}
+.rv-lbl{font-size:.9rem;font-weight:500}
+.rv-stars{display:flex;gap:4px}
+.rv-stars button{background:none;border:0;padding:0 2px;font-size:2rem;line-height:1;color:#E3D6C6;cursor:pointer;transition:transform .12s,color .12s}
+.rv-stars button:hover{transform:scale(1.12)}
+.rv-stars button.on{color:#F2A900}
+.rv-ya{display:block;text-align:center;margin-top:12px}
+.rv-ya[hidden]{display:none}
+@media (max-width:860px){.rv-layout{grid-template-columns:1fr}.rv-form{order:-1}}
 </style>
 </head>
 <body>
@@ -692,7 +729,7 @@ a.soc:hover,.foot-grid a.soc:hover{transform:translateY(-2px);box-shadow:0 6px 1
           <li>Пришлите фото или идею в WhatsApp, Max по номеру <a href="tel:+79996984906">+7 (999) 698-49-06</a> или на почту <a href="mailto:89996984906natali@gmail.com">89996984906natali@gmail.com</a></li>
           <li>Внесите предоплату 50%</li>
         </ol>
-        <p class="srv-note">Заказы принимаю минимум за 2 дня — срок зависит от изделия. За срочность добавляется 500 ₽.</p>
+        <p class="srv-note">Пряники заказывайте минимум за 3–5 дней, к праздникам — за 1–2 недели. Срочно, на завтра, — только караваи, шишки и пироги, за срочность +500 ₽.</p>
         <p style="margin-bottom:22px">Напишите мне, и мы вместе создадим вкусный символ вашего праздника.</p>
         <a href="#order" class="btn btn-fill" style="width:100%">Оставить заявку</a>
       </div>
@@ -769,6 +806,46 @@ a.soc:hover,.foot-grid a.soc:hover{transform:translateY(-2px);box-shadow:0 6px 1
   </div>
 </section>
 
+<!-- ================= ОТЗЫВЫ ================= -->
+<section class="sec" id="reviews">
+  <div class="wrap">
+    <div class="sec-head"><div><h2>Отзывы</h2><p>Что говорят те, кто уже заказывал. Каждый отзыв я читаю сама и публикую здесь после проверки.</p></div></div>
+    <div class="rv-layout">
+      <div class="rv-list" id="rvList"></div>
+      <div class="panel rv-form">
+        <h3>Оставить отзыв</h3>
+        <p class="muted rv-sub">Заказывали у меня? Расскажите, как всё прошло — мне важно каждое мнение.</p>
+        <div class="field"><label for="r-name">Ваше имя</label><input id="r-name" type="text" placeholder="Например, Анна"></div>
+        <div class="field"><label for="r-what">Что заказывали</label><input id="r-what" type="text" placeholder="Свадебный каравай, пряники на 8 Марта…"></div>
+        <div class="field"><span class="rv-lbl">Оценка</span>
+          <div class="rv-stars" id="rvStars" role="radiogroup" aria-label="Оценка">
+            <button type="button" data-v="1" aria-label="1 из 5">★</button><button type="button" data-v="2" aria-label="2 из 5">★</button><button type="button" data-v="3" aria-label="3 из 5">★</button><button type="button" data-v="4" aria-label="4 из 5">★</button><button type="button" data-v="5" aria-label="5 из 5">★</button>
+          </div>
+        </div>
+        <div class="field"><label for="r-text">Ваш отзыв</label><textarea id="r-text" placeholder="Понравился вкус, роспись, упаковка? Как прошёл праздник?"></textarea></div>
+        <label class="consent"><input type="checkbox" id="r-ok"><span>Согласен на публикацию отзыва с моим именем на сайте и на обработку персональных данных по <a href="privacy.html" target="_blank" rel="noopener">политике конфиденциальности</a></span></label>
+        <button class="btn btn-fill" id="rSend" style="width:100%">Отправить отзыв</button>
+        <div class="form-msg" id="rMsg"></div>
+        <a class="btn btn-ghost rv-ya" id="rvYa" href="#" target="_blank" rel="noopener" hidden>Оставить отзыв на Яндекс Картах</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ВОПРОСЫ И ОТВЕТЫ ================= -->
+<section class="sec" id="faq">
+  <div class="wrap">
+    <div class="sec-head"><div><h2>Вопросы и ответы</h2><p>Коротко о сроках, оплате, составе и доставке. Не нашли ответ — напишите мне, отвечу.</p></div></div>
+    <div class="faq-grid">
+      <div class="faq-group"><h3>Заказ и оплата</h3><details class="faq-q"><summary>За сколько дней нужно заказывать?</summary><p>Пряники — минимум за 3–5 дней. К праздникам (Новый год, 8 Марта, 23 Февраля) лучше за 1–2 недели: в эти дни заказов много.</p></details><details class="faq-q"><summary>Можно ли заказать срочно, на завтра?</summary><p>Да, но только караваи, шишки и пироги. Пряникам с росписью нужно время: тесто зреет сутки, а глазурь сохнет 8–12 часов. За срочность добавляется 500 ₽.</p></details><details class="faq-q"><summary>Есть ли минимальный заказ?</summary><p>Нет, можно заказать даже один пряник. Для корпоративных подарков с логотипом — от 30 штук.</p></details><details class="faq-q"><summary>Нужна ли предоплата?</summary><p>Да, предоплата 50%, остаток — при получении заказа.</p></details><details class="faq-q"><summary>Как оплатить?</summary><p>Как вам удобно: переводом, картой или наличными.</p></details></div>
+      <div class="faq-group"><h3>Пряники</h3><details class="faq-q"><summary>Сколько хранятся пряники?</summary><p>До 6 месяцев в закрытой упаковке.</p></details><details class="faq-q"><summary>Как их хранить?</summary><p>При комнатной температуре, в сухом месте, вдали от солнца. Холодильник не нужен.</p></details><details class="faq-q"><summary>Из чего они сделаны?</summary><p>Мука, сахар, сливочное масло, сметана, яйца, корица, гвоздика, сода. Мёда в составе нет — медовый вкус даёт технология приготовления. Если у вас аллергия, обратите внимание: в составе есть глютен, яйца и молочные продукты.</p></details><details class="faq-q"><summary>Есть ли пряники без глютена, без сахара или веганские?</summary><p>Пока нет — все пряники по классическому рецепту.</p></details><details class="faq-q"><summary>Можно ли нанести надпись, имя, логотип или фото?</summary><p>Да. Надписи и имена расписываю вручную айсингом, а логотип или фотографию наношу пищевой печатью.</p></details></div>
+      <div class="faq-group"><h3>Караваи</h3><details class="faq-q"><summary>За сколько дней заказывать свадебный каравай?</summary><p>Минимум за 3 дня.</p></details><details class="faq-q"><summary>Какого размера бывают караваи?</summary><p>От 1 кг до 4,5 кг — подберём вес под количество гостей.</p></details><details class="faq-q"><summary>Можно ли выбрать декор под стиль свадьбы?</summary><p>Да: лебеди, кольца, цветной декор — оформлю под ваши цвета и пожелания.</p></details></div>
+      <div class="faq-group"><h3>Доставка и упаковка</h3><details class="faq-q"><summary>Есть ли доставка?</summary><p>Да, по Ростову-на-Дону Яндекс Доставкой — по тарифу сервиса на момент отправки.</p></details><details class="faq-q"><summary>Можно ли забрать заказ самому?</summary><p>Да, самовывоз по договорённости — время и место согласуем при заказе.</p></details><details class="faq-q"><summary>Отправляете ли в другие города?</summary><p>Да, по России. Способ и стоимость отправки обсуждаем индивидуально.</p></details><details class="faq-q"><summary>Можно ли упаковать каждый пряник отдельно?</summary><p>Да — каждый пряник запаиваю в прозрачный пакетик и завязываю лентой.</p></details><details class="faq-q"><summary>Есть ли подарочные коробки?</summary><p>Да, для пряничных наборов.</p></details></div>
+    </div>
+  </div>
+</section>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "За сколько дней нужно заказывать?", "acceptedAnswer": {"@type": "Answer", "text": "Пряники — минимум за 3–5 дней. К праздникам (Новый год, 8 Марта, 23 Февраля) лучше за 1–2 недели: в эти дни заказов много."}}, {"@type": "Question", "name": "Можно ли заказать срочно, на завтра?", "acceptedAnswer": {"@type": "Answer", "text": "Да, но только караваи, шишки и пироги. Пряникам с росписью нужно время: тесто зреет сутки, а глазурь сохнет 8–12 часов. За срочность добавляется 500 ₽."}}, {"@type": "Question", "name": "Есть ли минимальный заказ?", "acceptedAnswer": {"@type": "Answer", "text": "Нет, можно заказать даже один пряник. Для корпоративных подарков с логотипом — от 30 штук."}}, {"@type": "Question", "name": "Нужна ли предоплата?", "acceptedAnswer": {"@type": "Answer", "text": "Да, предоплата 50%, остаток — при получении заказа."}}, {"@type": "Question", "name": "Как оплатить?", "acceptedAnswer": {"@type": "Answer", "text": "Как вам удобно: переводом, картой или наличными."}}, {"@type": "Question", "name": "Сколько хранятся пряники?", "acceptedAnswer": {"@type": "Answer", "text": "До 6 месяцев в закрытой упаковке."}}, {"@type": "Question", "name": "Как их хранить?", "acceptedAnswer": {"@type": "Answer", "text": "При комнатной температуре, в сухом месте, вдали от солнца. Холодильник не нужен."}}, {"@type": "Question", "name": "Из чего они сделаны?", "acceptedAnswer": {"@type": "Answer", "text": "Мука, сахар, сливочное масло, сметана, яйца, корица, гвоздика, сода. Мёда в составе нет — медовый вкус даёт технология приготовления. Если у вас аллергия, обратите внимание: в составе есть глютен, яйца и молочные продукты."}}, {"@type": "Question", "name": "Есть ли пряники без глютена, без сахара или веганские?", "acceptedAnswer": {"@type": "Answer", "text": "Пока нет — все пряники по классическому рецепту."}}, {"@type": "Question", "name": "Можно ли нанести надпись, имя, логотип или фото?", "acceptedAnswer": {"@type": "Answer", "text": "Да. Надписи и имена расписываю вручную айсингом, а логотип или фотографию наношу пищевой печатью."}}, {"@type": "Question", "name": "За сколько дней заказывать свадебный каравай?", "acceptedAnswer": {"@type": "Answer", "text": "Минимум за 3 дня."}}, {"@type": "Question", "name": "Какого размера бывают караваи?", "acceptedAnswer": {"@type": "Answer", "text": "От 1 кг до 4,5 кг — подберём вес под количество гостей."}}, {"@type": "Question", "name": "Можно ли выбрать декор под стиль свадьбы?", "acceptedAnswer": {"@type": "Answer", "text": "Да: лебеди, кольца, цветной декор — оформлю под ваши цвета и пожелания."}}, {"@type": "Question", "name": "Есть ли доставка?", "acceptedAnswer": {"@type": "Answer", "text": "Да, по Ростову-на-Дону Яндекс Доставкой — по тарифу сервиса на момент отправки."}}, {"@type": "Question", "name": "Можно ли забрать заказ самому?", "acceptedAnswer": {"@type": "Answer", "text": "Да, самовывоз по договорённости — время и место согласуем при заказе."}}, {"@type": "Question", "name": "Отправляете ли в другие города?", "acceptedAnswer": {"@type": "Answer", "text": "Да, по России. Способ и стоимость отправки обсуждаем индивидуально."}}, {"@type": "Question", "name": "Можно ли упаковать каждый пряник отдельно?", "acceptedAnswer": {"@type": "Answer", "text": "Да — каждый пряник запаиваю в прозрачный пакетик и завязываю лентой."}}, {"@type": "Question", "name": "Есть ли подарочные коробки?", "acceptedAnswer": {"@type": "Answer", "text": "Да, для пряничных наборов."}}]}</script>
+
 <!-- ================= ФОРМА ================= -->
 <section class="sec" id="order" style="padding-bottom:clamp(60px,8vw,100px)">
   <div class="wrap two">
@@ -778,7 +855,7 @@ a.soc:hover,.foot-grid a.soc:hover{transform:translateY(-2px);box-shadow:0 6px 1
       <ul class="ticks" style="margin-top:26px">
         <li>Пн–Пт 09:00–18:00, Сб–Вс выходные</li>
         <li>Доставка по Ростову-на-Дону, отправка по России</li>
-        <li>Срок годности пряника — 60 дней</li>
+        <li>Пряники хранятся до 6 месяцев</li>
         <li>Новые работы и свободные даты — в моём <a href="https://max.ru/join/w3tkCdIPJIyymzJsTIPXunVwAgm5yU-A0bV8QWmVfmQ" target="_blank" rel="noopener">канале в Max</a></li>
       </ul>
       <p class="soc-lead">Или напишите напрямую — отвечу там, где вам удобно:</p>
@@ -835,6 +912,8 @@ a.soc:hover,.foot-grid a.soc:hover{transform:translateY(-2px);box-shadow:0 6px 1
         <a href="#corp">Компаниям</a>
         <a href="#master">Мастер-классы</a>
         <a href="#craft">Как я пеку</a>
+        <a href="#reviews">Отзывы</a>
+        <a href="#faq">Вопросы и ответы</a>
       </div>
       <div>
         <h4>Связь</h4>
@@ -1405,6 +1484,64 @@ document.getElementById('send').onclick = async () => {
     btn.textContent = wasText;
   }
 };
+
+/* ================= ОТЗЫВЫ =================
+   Как опубликовать отзыв: отзыв приходит на почту → скопируйте его сюда,
+   в список REVIEWS, по образцу (каждый отзыв — в фигурных скобках, через запятую):
+   { name:'Анна', what:'Свадебный каравай', stars:5, text:'Текст отзыва', date:'октябрь 2026' },
+*/
+const REVIEWS = [
+];
+const YANDEX_REVIEWS_URL = '';   // ссылка на карточку в Яндекс Картах (раздел отзывов); пусто — кнопка скрыта
+
+(function(){
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const list = document.getElementById('rvList');
+  if (REVIEWS.length){
+    list.innerHTML = REVIEWS.map(r => `<article class="rv-card"><div class="rv-top"><b>${esc(r.name)}</b><span class="rv-st" aria-label="Оценка ${r.stars} из 5">${'★'.repeat(r.stars)}${'☆'.repeat(5-r.stars)}</span></div>${r.what?`<p class="rv-what">${esc(r.what)}${r.date?' · '+esc(r.date):''}</p>`:''}<p>${esc(r.text)}</p></article>`).join('');
+  } else {
+    list.innerHTML = '<div class="rv-empty"><div class="rv-big">★★★★★</div><h3>Здесь будут ваши отзывы</h3><p>Сайт только открылся, и первые отзывы ещё впереди. Если вы уже заказывали у меня — буду рада, если станете первым, кто поделится впечатлениями.</p></div>';
+  }
+  const ya = document.getElementById('rvYa');
+  if (YANDEX_REVIEWS_URL){ ya.href = YANDEX_REVIEWS_URL; ya.hidden = false; }
+
+  let stars = 0;
+  const box = document.getElementById('rvStars');
+  const paint = v => box.querySelectorAll('button').forEach(b => b.classList.toggle('on', +b.dataset.v <= v));
+  box.querySelectorAll('button').forEach(b => {
+    b.onclick = () => { stars = +b.dataset.v; paint(stars); };
+    b.onmouseenter = () => paint(+b.dataset.v);
+  });
+  box.onmouseleave = () => paint(stars);
+
+  const rmsg = document.getElementById('rMsg');
+  document.getElementById('rSend').onclick = async () => {
+    const btn = document.getElementById('rSend');
+    const name = document.getElementById('r-name').value.trim();
+    const what = document.getElementById('r-what').value.trim();
+    const text = document.getElementById('r-text').value.trim();
+    const ok = document.getElementById('r-ok').checked;
+    if(!name){ rmsg.className='form-msg err'; rmsg.textContent='Укажите, как вас зовут.'; return; }
+    if(!stars){ rmsg.className='form-msg err'; rmsg.textContent='Поставьте оценку — нажмите на звёздочку.'; return; }
+    if(text.length < 10){ rmsg.className='form-msg err'; rmsg.textContent='Напишите хотя бы пару слов о заказе.'; return; }
+    if(!ok){ rmsg.className='form-msg err'; rmsg.textContent='Поставьте галочку согласия на публикацию.'; return; }
+    btn.disabled = true; const was = btn.textContent; btn.textContent = 'Отправляю…';
+    rmsg.className='form-msg'; rmsg.textContent='';
+    try{
+      const r = await fetch('https://formsubmit.co/ajax/' + ORDER_EMAIL, {
+        method:'POST', headers:{'Content-Type':'application/json','Accept':'application/json'},
+        body: JSON.stringify({ _subject:`Отзыв с сайта ${'★'.repeat(stars)} — ${name}`, Тип:'ОТЗЫВ (не заказ)', Имя:name, Заказ:what||'—', Оценка:`${stars} из 5`, Отзыв:text, Публикация:'клиент согласен на публикацию с именем' })
+      });
+      if(!r.ok) throw new Error(r.status);
+      rmsg.className='form-msg'; rmsg.textContent='Спасибо за отзыв! Он появится на сайте после проверки.';
+      if(window.ym && window.__ym_id) ym(window.__ym_id, 'reachGoal', 'OTZYV');
+      ['r-name','r-what','r-text'].forEach(id => document.getElementById(id).value='');
+      document.getElementById('r-ok').checked=false; stars=0; paint(0);
+    }catch(e){
+      rmsg.className='form-msg err'; rmsg.innerHTML='Не удалось отправить. Напишите отзыв в WhatsApp <a href="https://wa.me/79996984906" target="_blank" rel="noopener">+7 (999) 698-49-06</a>.';
+    }finally{ btn.disabled=false; btn.textContent=was; }
+  };
+})();
 
 /* ============================================================
    9. МОБИЛЬНОЕ МЕНЮ
