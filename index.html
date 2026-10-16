@@ -610,6 +610,30 @@ a.soc:hover,.foot-grid a.soc:hover{transform:translateY(-2px);box-shadow:0 6px 1
 .rv-more{justify-self:start}
 
 @media (max-width:860px){.rv-layout{grid-template-columns:1fr}.rv-form{order:-1}}
+
+/* ---- сообщить об ошибке ---- */
+.bug-link{background:none;border:0;padding:0;margin:0 0 8px;font:inherit;font-weight:600;color:inherit;cursor:pointer;border-bottom:1px dashed currentColor;text-shadow:inherit}
+.bug-link:hover{color:var(--berry)}
+.bug-back{position:fixed;inset:0;z-index:200;background:rgba(30,15,10,.45);display:grid;place-items:center;padding:16px}
+.bug-back[hidden]{display:none}
+.bug-box{position:relative;width:100%;max-width:440px;background:#fff;border-radius:22px;padding:28px 24px 20px;box-shadow:0 20px 60px rgba(30,15,10,.3);max-height:calc(100vh - 32px);overflow:auto}
+.bug-box h3{font-size:1.3rem;margin:0 0 6px}
+.bug-sub{margin:0 0 16px;color:var(--icing-dim);font-size:.93rem;line-height:1.5}
+.bug-opt{font-weight:400;color:var(--icing-dim)}
+.bug-x{position:absolute;top:10px;right:12px;width:36px;height:36px;border:0;background:none;font-size:1.7rem;line-height:1;cursor:pointer;color:var(--icing-dim);border-radius:50%}
+.bug-x:hover{background:var(--tile)}
+.bug-tip{margin:12px 0 0;font-size:.8rem;color:var(--icing-dim)}
+@media (hover:none){.bug-tip{display:none}}
+.bug-file-input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+.bug-file{display:flex;align-items:center;gap:10px;padding:12px 14px;border:1px dashed rgba(214,59,82,.45);border-radius:14px;cursor:pointer;color:var(--icing);font-size:.93rem;background:#FFF9F3}
+.bug-file:hover{border-color:var(--berry)}
+.bug-file svg{color:var(--berry);flex:none}
+.bug-file-input:focus-visible + .bug-file{outline:2px solid var(--mint);outline-offset:2px}
+.bug-prev{display:flex;align-items:center;gap:12px;margin-top:10px}
+.bug-prev[hidden]{display:none}
+.bug-prev img{width:72px;height:72px;object-fit:cover;border-radius:10px;border:1px solid var(--line)}
+.bug-prev button{background:none;border:0;padding:0;color:var(--berry);font:inherit;font-size:.9rem;cursor:pointer;border-bottom:1px solid currentColor}
+
 </style>
 </head>
 <body>
@@ -936,10 +960,40 @@ a.soc:hover,.foot-grid a.soc:hover{transform:translateY(-2px);box-shadow:0 6px 1
         <span style="display:block;padding-top:10px">Ростов-на-Дону</span>
       </div>
     </div>
-    <div class="legal"><a href="privacy.html" style="border-bottom:1px solid var(--line)">Политика конфиденциальности</a><br>© Каравай и пряник · Наталия Бондаренко, 2026. Все изображения и тексты — собственность мастерской.</div>
+    <div class="legal"><button type="button" class="bug-link" id="bugOpen">Нашли ошибку на сайте? Напишите нам</button><br><a href="privacy.html" style="border-bottom:1px solid var(--line)">Политика конфиденциальности</a><br>© Каравай и пряник · Наталия Бондаренко, 2026. Все изображения и тексты — собственность мастерской.</div>
   </div>
 </footer>
 
+
+<!-- ================= СООБЩИТЬ ОБ ОШИБКЕ ================= -->
+<div class="bug-back" id="bugBack" hidden>
+  <div class="bug-box" role="dialog" aria-modal="true" aria-labelledby="bugTitle">
+    <button type="button" class="bug-x" id="bugClose" aria-label="Закрыть">×</button>
+    <h3 id="bugTitle">Нашли ошибку?</h3>
+    <p class="bug-sub">Опечатка, неверная цена, не открывается фото или кнопка не работает — напишите, я исправлю.</p>
+    <form id="bugForm" method="POST" action="https://formsubmit.co/89996984906natali@gmail.com" enctype="multipart/form-data" target="bugFrame">
+      <input type="hidden" name="_subject" value="Ошибка на сайте">
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="_template" value="table">
+      <input type="hidden" name="Тип" value="СООБЩЕНИЕ ОБ ОШИБКЕ (не заказ)">
+      <input type="hidden" name="Страница" id="bug-page" value="">
+      <div class="field"><label for="bug-text">Что не так</label><textarea id="bug-text" name="Что_не_так" placeholder="Например: в карточке «Шишки» не та цена"></textarea></div>
+      <div class="field"><span class="rv-lbl">Скриншот <span class="bug-opt">(необязательно)</span></span>
+        <input id="bug-shot" name="Скриншот" type="file" accept="image/*" class="bug-file-input">
+        <label class="bug-file" for="bug-shot">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.4 11.1 12.2 20.3a6 6 0 0 1-8.5-8.5l9.2-9.2a4 4 0 0 1 5.7 5.7l-9.2 9.2a2 2 0 0 1-2.8-2.8l8.5-8.5"/></svg>
+          <span id="bugFileName">Прикрепить фото или скриншот</span>
+        </label>
+        <div class="bug-prev" id="bugPrev" hidden><img id="bugPrevImg" alt="Прикреплённый скриншот"><button type="button" id="bugFileDel">Убрать</button></div>
+      </div>
+      <div class="field"><label for="bug-contact">Ваш контакт <span class="bug-opt">(необязательно)</span></label><input id="bug-contact" name="Контакт" type="text" placeholder="Телефон или @ник, если нужен ответ"></div>
+      <button type="submit" class="btn btn-fill" id="bugSend" style="width:100%">Отправить</button>
+    </form>
+    <div class="form-msg" id="bugMsg"></div>
+    <p class="bug-tip">Совет: выделите текст с ошибкой и нажмите Ctrl + Enter — окно откроется само.</p>
+  </div>
+</div>
+<iframe name="bugFrame" id="bugFrame" title="Отправка сообщения" hidden></iframe>
 <!-- ================= ГАЛЕРЕЯ ================= -->
 <div class="view" id="view" role="dialog" aria-label="Фото товара">
   <div class="view-head">
@@ -1516,6 +1570,75 @@ document.getElementById('send').onclick = async () => {
   }
 };
 
+
+/* ================= СООБЩИТЬ ОБ ОШИБКЕ =================
+   Отправка обычной формой (multipart) в скрытый iframe — так FormSubmit
+   прикрепляет скриншот к письму. Фото больше 1600px уменьшается в браузере. */
+(function(){
+  const back = document.getElementById('bugBack'), form = document.getElementById('bugForm'),
+        txt = document.getElementById('bug-text'), msgEl = document.getElementById('bugMsg'),
+        btn = document.getElementById('bugSend'), file = document.getElementById('bug-shot'),
+        prev = document.getElementById('bugPrev'), prevImg = document.getElementById('bugPrevImg'),
+        fname = document.getElementById('bugFileName'), frame = document.getElementById('bugFrame');
+  const LABEL = 'Прикрепить фото или скриншот';
+  let sending = false;
+  const resetFile = () => { file.value=''; prev.hidden = true; prevImg.removeAttribute('src'); fname.textContent = LABEL; };
+  const open = (pre) => { if (pre) txt.value = '«' + pre + '» — '; msgEl.textContent=''; back.hidden = false; setTimeout(()=>txt.focus(), 30); };
+  const close = () => { back.hidden = true; };
+  document.getElementById('bugOpen').onclick = () => open('');
+  document.getElementById('bugClose').onclick = close;
+  document.getElementById('bugFileDel').onclick = resetFile;
+  back.addEventListener('click', e => { if (e.target === back) close(); });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && !back.hidden) close();
+    if (e.key === 'Enter' && (e.ctrlKey || e.metaKey) && back.hidden){
+      const sel = String(window.getSelection() || '').trim();
+      if (sel){ e.preventDefault(); open(sel.slice(0, 300)); }
+    }
+  });
+
+  // уменьшаем большое фото, чтобы письмо точно прошло (лимит сервиса — 10 МБ)
+  const shrink = (f) => new Promise(res => {
+    const img = new Image(), url = URL.createObjectURL(f);
+    img.onload = () => {
+      const MAX = 1600, k = Math.min(1, MAX / Math.max(img.width, img.height));
+      if (k === 1 && f.size < 2.5e6){ URL.revokeObjectURL(url); return res(f); }
+      const c = document.createElement('canvas'); c.width = Math.round(img.width*k); c.height = Math.round(img.height*k);
+      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+      c.toBlob(b => { URL.revokeObjectURL(url); res(b ? new File([b], 'screenshot.jpg', {type:'image/jpeg'}) : f); }, 'image/jpeg', 0.85);
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); res(f); };
+    img.src = url;
+  });
+
+  file.addEventListener('change', async () => {
+    const f = file.files && file.files[0];
+    if (!f){ resetFile(); return; }
+    if (!/^image\//.test(f.type)){ msgEl.className='form-msg err'; msgEl.textContent='Можно прикрепить только картинку.'; resetFile(); return; }
+    msgEl.textContent=''; fname.textContent = 'Готовлю фото…';
+    const small = await shrink(f);
+    if (small !== f){ try{ const dt = new DataTransfer(); dt.items.add(small); file.files = dt.files; }catch(e){} }
+    const use = (file.files && file.files[0]) || f;
+    if (use.size > 9.5e6){ msgEl.className='form-msg err'; msgEl.textContent='Фото слишком большое — пришлите, пожалуйста, скриншот поменьше.'; resetFile(); return; }
+    prevImg.src = URL.createObjectURL(use); prev.hidden = false;
+    fname.textContent = 'Фото прикреплено — можно заменить';
+  });
+
+  form.addEventListener('submit', e => {
+    if (txt.value.trim().length < 5){ e.preventDefault(); msgEl.className='form-msg err'; msgEl.textContent='Опишите, пожалуйста, что не так.'; return; }
+    document.getElementById('bug-page').value = location.href;
+    sending = true; btn.disabled = true; btn.textContent = 'Отправляю…';
+    msgEl.className='form-msg'; msgEl.textContent='';
+  });
+  // форма уходит в скрытый iframe; когда он загрузился — письмо отправлено
+  frame.addEventListener('load', () => {
+    if (!sending) return;
+    sending = false; btn.disabled = false; btn.textContent = 'Отправить';
+    msgEl.className='form-msg'; msgEl.textContent='Спасибо! Сообщение отправлено, я всё проверю.';
+    form.reset(); resetFile();
+    setTimeout(close, 1800);
+  });
+})();
 /* ================= ОТЗЫВЫ =================
    Как опубликовать отзыв: отзыв приходит на почту → скопируйте его сюда,
    в список REVIEWS, по образцу (каждый отзыв — в фигурных скобках, через запятую):
