@@ -13,7 +13,7 @@
 <meta property="og:title" content="Каравай и пряник от Наталии Бондаренко — Ростов-на-Дону">
 <meta property="og:description" content="Свадебные караваи и имбирные пряники ручной работы на заказ в Ростове-на-Дону">
 <meta property="og:image" content="https://bondarenko-pryaniki.ru/images/bg.jpg">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Bakery", "name": "Каравай и пряник от Наталии Бондаренко", "description": "Свадебные караваи и имбирные пряники ручной работы с росписью на заказ в Ростове-на-Дону", "url": "https://bondarenko-pryaniki.ru/", "telephone": "+7-999-698-49-06", "email": "89996984906natali@gmail.com", "image": "https://bondarenko-pryaniki.ru/images/bg.jpg", "logo": "https://bondarenko-pryaniki.ru/images/brand-logo-512.png", "address": {"@type": "PostalAddress", "addressLocality": "Ростов-на-Дону", "addressRegion": "Ростовская область", "addressCountry": "RU"}, "areaServed": "Ростов-на-Дону", "openingHoursSpecification": [{"@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], "opens": "09:00", "closes": "18:00"}], "sameAs": ["https://www.instagram.com/nbondarenko.official", "https://t.me/dostigatorBond", "https://max.ru/join/w3tkCdIPJIyymzJsTIPXunVwAgm5yU-A0bV8QWmVfmQ"]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Bakery", "name": "Каравай и пряник от Наталии Бондаренко", "description": "Свадебные караваи и имбирные пряники ручной работы с росписью на заказ в Ростове-на-Дону", "url": "https://bondarenko-pryaniki.ru/", "telephone": "+7-999-698-49-06", "email": "89996984906natali@gmail.com", "image": ["https://bondarenko-pryaniki.ru/images/karavay-1.jpg", "https://bondarenko-pryaniki.ru/images/karavay-lebedi-1.jpg", "https://bondarenko-pryaniki.ru/images/domik-1.jpg", "https://bondarenko-pryaniki.ru/images/rozy-1.jpg", "https://bondarenko-pryaniki.ru/images/dedmoroz-1.jpg", "https://bondarenko-pryaniki.ru/images/shishki-1.jpg"], "logo": "https://bondarenko-pryaniki.ru/images/brand-logo-512.png", "address": {"@type": "PostalAddress", "addressLocality": "Ростов-на-Дону", "addressRegion": "Ростовская область", "addressCountry": "RU"}, "areaServed": "Ростов-на-Дону", "openingHoursSpecification": [{"@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], "opens": "09:00", "closes": "18:00"}], "sameAs": ["https://www.instagram.com/nbondarenko.official", "https://t.me/dostigatorBond", "https://max.ru/join/w3tkCdIPJIyymzJsTIPXunVwAgm5yU-A0bV8QWmVfmQ"]}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@500;600;700&family=Caveat:wght@600;700&family=Marck+Script&family=Onest:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -1199,7 +1199,7 @@ function placeholder(shape){
 }
 function shot(p){
   return (p.imgs && p.imgs.length)
-    ? `<img src="${p.imgs[0]}" alt="${p.name}" loading="lazy">`
+    ? `<img src="${p.imgs[0]}" alt="${p.name} на заказ, Ростов-на-Дону — Наталия Бондаренко" loading="lazy">`
     : placeholder(p.shape);
 }
 const money = v => v == null ? null : v.toLocaleString('ru-RU') + ' ₽';
@@ -1329,7 +1329,7 @@ sizesEl.innerHTML = BOXES.map(b =>
 
 bgrid.innerHTML = DESIGNS.map(d => `
   <div class="bitem" data-d="${d.id}">
-    <div class="pic"><img src="${d.img}" alt="${d.name}" loading="lazy"><b></b></div>
+    <div class="pic"><img src="${d.img}" alt="Имбирный пряник «${d.name}» ручной работы" loading="lazy"><b></b></div>
     <h4>${d.name}</h4>
     <div class="bstep">
       <button data-step="-1" data-d="${d.id}" aria-label="Убрать ${d.name}">−</button>
