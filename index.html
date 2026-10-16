@@ -601,6 +601,13 @@ a.soc:hover,.foot-grid a.soc:hover{transform:translateY(-2px);box-shadow:0 6px 1
 .rv-stars button.on{color:#F2A900}
 .rv-ya{display:block;text-align:center;margin-top:12px}
 .rv-ya[hidden]{display:none}
+.rv-sum{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px 20px;box-shadow:var(--shadow)}
+.rv-sum .rv-num{font-family:'Bitter',Georgia,serif;font-size:2rem;font-weight:700;line-height:1}
+.rv-sum .rv-st{color:#F2A900;letter-spacing:2px}
+.rv-sum span:last-child{color:var(--icing-dim);font-size:.95rem}
+.rv-src{color:var(--icing-dim)}
+.rv-more{justify-self:start}
+
 @media (max-width:860px){.rv-layout{grid-template-columns:1fr}.rv-form{order:-1}}
 </style>
 </head>
@@ -809,7 +816,7 @@ a.soc:hover,.foot-grid a.soc:hover{transform:translateY(-2px);box-shadow:0 6px 1
 <!-- ================= ОТЗЫВЫ ================= -->
 <section class="sec" id="reviews">
   <div class="wrap">
-    <div class="sec-head"><div><h2>Отзывы</h2><p>Что говорят те, кто уже заказывал. Каждый отзыв я читаю сама и публикую здесь после проверки.</p></div></div>
+    <div class="sec-head"><div><h2>Отзывы</h2><p>Что говорят те, кто уже заказывал. Отзывы с Авито и с этого сайта — новые я читаю сама и публикую после проверки.</p></div></div>
     <div class="rv-layout">
       <div class="rv-list" id="rvList"></div>
       <div class="panel rv-form">
@@ -965,6 +972,7 @@ a.soc:hover,.foot-grid a.soc:hover{transform:translateY(-2px);box-shadow:0 6px 1
    priceText: своя строка цены («от 950 ₽/кг») — важнее price
    shape: man | heart | star | house | tree | loaf | cone  (для заглушки)
    badge: '' | 'Хит' | 'Новинка'
+   isNew: true → товар показывается ещё и во вкладке «Новинки»
    adult: true → фото под вуалью, открывается по клику
    stock: не указан → над карточкой «Под заказ»; stock:true → «В наличии»
    soldout: true → товар снят с продажи: без цены, без кнопки «В корзину»
@@ -973,6 +981,7 @@ let cart = [];          // корзина живёт в памяти стран�
 
 const CATS = [
   {id:'all',      name:'Все'},
+  {id:'new',      name:'Новинки'},
   {id:'bread',    name:'Караваи и шишки'},
   {id:'holidays', name:'К празднику'},
   {id:'bouquets', name:'Букеты из пряников'},
@@ -1025,7 +1034,7 @@ const PRODUCTS = [
 
   {id:6, name:'Пряничный домик', cat:'house', shape:'house', price:null, priceText:'1500–4000 ₽', badge:'Хит',
    imgs:['images/domik-1.jpg','images/domik-2.jpg','images/domik-3.jpg','images/domik-4.jpg'],
-   desc:'Собранная изба с бревенчатыми стенами и снежной крышей из айсинга. Внутрь ставится свечка — окна светятся изнутри. Стоит как украшение весь декабрь, потом съедается. Размеры: маленький — 1500 ₽, средний — 2600 ₽, большой — 4000 ₽.'},
+   desc:'Собранная изба с бревенчатыми стенами и снежной крышей из айсинга. Внутрь ставится свечка — окна светятся изнутри. Стоит как украшение весь декабрь, потом съедается. Размеры: маленький — 1500 ₽, средний — 2500 ₽, большой — 4000 ₽.'},
 
 
   {id:8, name:'Именные пряники', cat:'custom', shape:'man', price:null, priceText:'250 ₽/шт.', badge:'',
@@ -1062,11 +1071,11 @@ const PRODUCTS = [
 
   {id:15, name:'Пасхальный домик', cat:'house', shape:'house', price:null, priceText:'1500–4000 ₽', badge:'',
    imgs:['images/pashalnyi-1.jpg','images/pashalnyi-2.jpg'],
-   desc:'Домик с куличом, крашенками и зелёной травой на подставке, сверху — атласные банты. Ставится на пасхальный стол вместо покупного декора. Размеры: маленький — 1500 ₽, средний — 2600 ₽, большой — 4000 ₽.'},
+   desc:'Домик с куличом, крашенками и зелёной травой на подставке, сверху — атласные банты. Ставится на пасхальный стол вместо покупного декора. Размеры: маленький — 1500 ₽, средний — 2500 ₽, большой — 4000 ₽.'},
 
   {id:16, name:'Мини-домики', cat:'house', shape:'house', price:null, priceText:'1500–4000 ₽', badge:'',
    imgs:['images/minidomiki-1.jpg','images/minidomiki-3.jpg','images/minidomiki-2.jpg'],
-   desc:'Домики размером с ладонь: красные стены, венок на двери, снежная кровля из объёмного крема. Берут набором по три или поштучно как сувенир. Размеры: маленький — 1500 ₽, средний — 2600 ₽, большой — 4000 ₽.'},
+   desc:'Домики размером с ладонь: красные стены, венок на двери, снежная кровля из объёмного крема. Берут набором по три или поштучно как сувенир. Размеры: маленький — 1500 ₽, средний — 2500 ₽, большой — 4000 ₽.'},
 
   {id:17, name:'Пряники-мишки', cat:'holidays', shape:'man', price:null, priceText:'210 ₽/шт.', badge:'',
    imgs:['images/mishki-1.jpg','images/mishki-2.jpg'],
@@ -1076,6 +1085,21 @@ const PRODUCTS = [
    imgs:['images/tulpany-1.jpg','images/tulpany-2.jpg'],
    desc:'Пять тюльпанов разного цвета и зелёные листья на палочках, каждый в своём пакетике. Классический подарок на 8 марта, который не вянет.'},
 
+  {id:26, name:'Пряники на Хэллоуин', cat:'holidays', shape:'star', price:null, priceText:'160 ₽/шт.', badge:'Новинка', isNew:true,
+   imgs:['images/halloween-1.jpg','images/halloween-2.jpg'],
+   desc:'Тыквы-фонарики, привидения с надписью «BOO», Франкенштейн и скелетик — весёлые пряники к Хэллоуину. Каждый расписываю айсингом вручную и упаковываю в отдельный пакетик с лентой. Хорошо подходят для вечеринки, класса или в подарок друзьям.'},
+  {id:27, name:'Светящийся домик', cat:'house', shape:'house', price:null, priceText:'1500 ₽/шт.', badge:'Новинка', isNew:true,
+   imgs:['images/domik-svet-1.jpg','images/domik-svet-2.jpg'],
+   desc:'Пряничный домик, у которого окна светятся изнутри тёплым светом. Крыша в снежных шапках и сосульках из айсинга, на стенах — веточки с ягодами или новогодний венок. Красиво стоит под ёлкой весь праздник, а потом его можно съесть.'},
+  {id:28, name:'Мини-пряники к 23 Февраля', cat:'holidays', shape:'star', price:null, priceText:'160 ₽/шт.', badge:'Новинка', isNew:true,
+   imgs:['images/feb23-mini-2.jpg','images/feb23-mini-1.jpg'],
+   desc:'Небольшие пряники в виде инструментов — пилы, молотки, плоскогубцы, гаечные ключи — и звёзды с цифрой 23. Собираю наборы в прозрачных пакетиках: удобно поздравить коллег, папу или одноклассников.'},
+  {id:29, name:'Букет в горшочке', cat:'bouquets', shape:'tree', price:null, priceText:'1300 ₽', badge:'Новинка', isNew:true,
+   imgs:['images/buket-gorshok-1.jpg'],
+   desc:'Цветы и листья из расписных пряников в декоративном горшочке с голубой лентой: красный цветок, белая лилия, голубые и белые цветы с золотыми акцентами. Подарок, который не завянет, — его можно съесть.'},
+  {id:30, name:'Белый домик с красной крышей', cat:'house', shape:'house', price:null, priceText:'2500 ₽/шт.', badge:'Новинка', isNew:true,
+   imgs:['images/domik-belyi-1.jpg'],
+   desc:'Белоснежный пряничный домик с красной крышей в клетку, круглым окошком в розовом канте и красной дверцей. Снежные шапки и сосульки — из айсинга. Красиво смотрится на новогоднем столе и под ёлкой.'},
   {id:19, name:'Шуточный пряник «Для взрослых»', cat:'fun', shape:'man', price:null, priceText:'180 ₽/шт.', badge:'18+', adult:true,
    imgs:['images/shutochnyi-1.jpg','images/shutochnyi-2.jpg'],
    desc:'Пряник с юмором в двух вариантах росписи — в плавках и в стрингах. Берут на девичник, мальчишник и день рождения друга. Упакую непрозрачно, если нужен сюрприз.'}
@@ -1141,7 +1165,7 @@ chips.addEventListener('click', e => {
 });
 
 function renderGrid(){
-  const list = PRODUCTS.filter(p => filter === 'all' || p.cat === filter);
+  const list = PRODUCTS.filter(p => filter === 'all' || p.cat === filter || (filter === 'new' && p.isNew));
   if(!list.length){ grid.innerHTML = `<p class="empty-note">В этой категории пока пусто. Напишите мне — сделаю на заказ.</p>`; return; }
   grid.innerHTML = list.map(p => {
     const pr = priceOf(p);
@@ -1491,6 +1515,16 @@ document.getElementById('send').onclick = async () => {
    { name:'Анна', what:'Свадебный каравай', stars:5, text:'Текст отзыва', date:'октябрь 2026' },
 */
 const REVIEWS = [
+  { name:'Анна', what:'Свадебный каравай', stars:5, date:'июль 2026', src:'Авито', text:'Заказывала каравай, Наталья быстро отвечала на сообщения, всё чётко и по делу, оперативно приняла заказ…' },
+  { name:'Валентина Семенова', what:'Свадебный каравай', stars:5, date:'июнь 2026', src:'Авито', text:'Каравай оказался очень красивым и вкусным, спасибо большое за работу, всё понравилось.' },
+  { name:'Марина', what:'Свадебный каравай', stars:5, date:'май 2026', src:'Авито', text:'Спасибо Наталье за такой чудесный каравай, очень вкусный, мягкий и ароматный. Рекомендую.' },
+  { name:'Настя', what:'Свадебный каравай', stars:5, date:'март 2026', src:'Авито', text:'Самый лучший каравай в моей жизни, по вкусу — великолепный сладкий хлеб (ароматный)…' },
+  { name:'Татьяна', what:'Свадебный каравай', stars:5, date:'октябрь 2025', src:'Авито', text:'Шикарный каравай и очень вкусный!!! Всем гостям очень понравился, съели всё!!! Сладкий, ароматный…' },
+  { name:'Екатерина', what:'Каравай', stars:5, date:'август 2025', src:'Авито', text:'Каравай к нашему мероприятию был великолепен, красиво упакован, и в итоге очень вкусный.' },
+  { name:'Ирина', what:'Каравай и хворост', stars:5, date:'июль 2025', src:'Авито', text:'Спасибо большое за очень вкусный, ароматный каравай и хрустящий нежный хворост! Заказ сделан вовремя, рекомендую!' },
+  { name:'Евгения', what:'Каравай', stars:5, date:'июль 2025', src:'Авито', text:'Спасибо большое за каравай! Очень вкусный, мы встречали подругу и съели его с удовольствием.' },
+  { name:'Ирина', what:'Свадебный каравай', stars:5, date:'февраль 2025', src:'Авито', text:'Очень красивый каравай, вкусный, доставлен вовремя. Спасибо большое Вам!' },
+  { name:'Ната', what:'Свадебный каравай', stars:5, date:'сентябрь 2024', src:'Авито', text:'Услуга оказана, каравай прекрасный 👍' },
 ];
 const YANDEX_REVIEWS_URL = '';   // ссылка на карточку в Яндекс Картах (раздел отзывов); пусто — кнопка скрыта
 
@@ -1498,7 +1532,15 @@ const YANDEX_REVIEWS_URL = '';   // ссылка на карточку в Янд
   const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const list = document.getElementById('rvList');
   if (REVIEWS.length){
-    list.innerHTML = REVIEWS.map(r => `<article class="rv-card"><div class="rv-top"><b>${esc(r.name)}</b><span class="rv-st" aria-label="Оценка ${r.stars} из 5">${'★'.repeat(r.stars)}${'☆'.repeat(5-r.stars)}</span></div>${r.what?`<p class="rv-what">${esc(r.what)}${r.date?' · '+esc(r.date):''}</p>`:''}<p>${esc(r.text)}</p></article>`).join('');
+    const SHOW = 4;
+    const avg = (REVIEWS.reduce((s,r)=>s+r.stars,0)/REVIEWS.length).toFixed(1).replace('.',',');
+    const n = REVIEWS.length, w = (n%10===1&&n%100!==11)?'отзыв':(n%10>=2&&n%10<=4&&(n%100<10||n%100>=20))?'отзыва':'отзывов';
+    const card = (r,i) => `<article class="rv-card"${i>=SHOW?' hidden':''}><div class="rv-top"><b>${esc(r.name)}</b><span class="rv-st" aria-label="Оценка ${r.stars} из 5">${'★'.repeat(r.stars)}${'☆'.repeat(5-r.stars)}</span></div><p class="rv-what">${esc(r.what||'')}${r.date?' · '+esc(r.date):''}${r.src?` · <span class="rv-src">отзыв с ${esc(r.src)}</span>`:''}</p><p>${esc(r.text)}</p></article>`;
+    list.innerHTML = `<div class="rv-sum"><span class="rv-num">${avg}</span><span class="rv-st">★★★★★</span><span>${n} ${w} от клиентов</span></div>`
+      + REVIEWS.map(card).join('')
+      + (n>SHOW ? `<button type="button" class="btn btn-ghost rv-more" id="rvMore">Показать все отзывы (${n})</button>` : '');
+    const more = document.getElementById('rvMore');
+    if (more) more.onclick = () => { list.querySelectorAll('.rv-card[hidden]').forEach(c => c.hidden = false); more.remove(); };
   } else {
     list.innerHTML = '<div class="rv-empty"><div class="rv-big">★★★★★</div><h3>Здесь будут ваши отзывы</h3><p>Сайт только открылся, и первые отзывы ещё впереди. Если вы уже заказывали у меня — буду рада, если станете первым, кто поделится впечатлениями.</p></div>';
   }
