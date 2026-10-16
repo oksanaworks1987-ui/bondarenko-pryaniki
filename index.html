@@ -175,7 +175,8 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
 .bitem{background:#FFFFFF;border:1px solid var(--line);border-radius:15px;overflow:hidden;display:flex;flex-direction:column}
 .bitem.picked{border-color:var(--dough)}
 .bitem .pic{aspect-ratio:1/1;background:var(--tile);position:relative}
-.bitem .pic img{width:100%;height:100%;object-fit:cover}
+.bitem .pic{overflow:hidden}
+.bitem .pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .bitem .pic b{
   position:absolute;top:8px;right:8px;width:26px;height:26px;border-radius:50%;
   background:var(--dough);color:#2A170F;display:none;place-items:center;font-size:.82rem;
@@ -816,7 +817,7 @@ a.soc:hover,.foot-grid a.soc:hover{transform:translateY(-2px);box-shadow:0 6px 1
 <!-- ================= ОТЗЫВЫ ================= -->
 <section class="sec" id="reviews">
   <div class="wrap">
-    <div class="sec-head"><div><h2>Отзывы</h2><p>Что говорят те, кто уже заказывал. Отзывы с Авито и с этого сайта — новые я читаю сама и публикую после проверки.</p></div></div>
+    <div class="sec-head"><div><h2>Отзывы</h2><p>Что говорят те, кто уже заказывал. Новые отзывы я читаю сама и публикую после проверки.</p></div></div>
     <div class="rv-layout">
       <div class="rv-list" id="rvList"></div>
       <div class="panel rv-form">
@@ -1008,6 +1009,9 @@ const PRODUCTS = [
    imgs:['images/karavay-cvet-1.jpg','images/karavay-cvet-2.jpg'],
    desc:'Красные розы, зелёные листья и гроздья калины из цветного теста. Яркий вариант для свадьбы в народном стиле. Вес от 1 кг.'},
 
+  {id:31, name:'Каравай с цветочным венком', cat:'bread', shape:'loaf', price:null, priceText:'950 ₽/кг', badge:'Новинка', isNew:true,
+   imgs:['images/karavay-cvety-1.jpg','images/karavay-cvety-2.jpg','images/karavay-cvety-3.jpg'],
+   desc:'Пышный каравай с глянцевой корочкой, вокруг — венок из цветов, вылепленных вручную из теста, сверху — плетёное кольцо, узор из белых точек глазури. Можно заказать с лебедями, розами и листьями, как на третьем фото. Вес от 1 кг.'},
   {id:21, name:'Шишки', cat:'bread', shape:'cone', price:null, priceText:'75 ₽/шт.', badge:'',
    imgs:['images/shishki-1.jpg'],
    desc:'Сдобные шишки ручной лепки: каждый лепесток выкладываю отдельно, поэтому рисунок получается объёмным. Поштучно, каждая в индивидуальной упаковке — удобно раздавать гостям на свадьбе.'},
@@ -1247,7 +1251,10 @@ const DESIGNS = [
   {id:'d8',  name:'Зубик',             img:'images/zubki-1.jpg'},
   {id:'d9',  name:'Конституция',       img:'images/konstituciya-1.jpg'},
   {id:'d10', name:'Шкатулка с кремом', img:'images/lublu-1.jpg'},
-  {id:'d11', name:'Именной человечек', img:'images/imennye-1.jpg'}
+  {id:'d11', name:'Именной человечек', img:'images/imennye-1.jpg'},
+  {id:'d12', name:'Хэллоуин',          img:'images/halloween-1.jpg'},
+  {id:'d13', name:'Инструменты к 23 Февраля', img:'images/feb23-mini-2.jpg'},
+  {id:'d14', name:'23 Февраля',        img:'images/feb23-1.jpg'}
 ];
 
 let boxSize = BOXES[1].n;
@@ -1515,16 +1522,16 @@ document.getElementById('send').onclick = async () => {
    { name:'Анна', what:'Свадебный каравай', stars:5, text:'Текст отзыва', date:'октябрь 2026' },
 */
 const REVIEWS = [
-  { name:'Анна', what:'Свадебный каравай', stars:5, date:'июль 2026', src:'Авито', text:'Заказывала каравай, Наталья быстро отвечала на сообщения, всё чётко и по делу, оперативно приняла заказ…' },
-  { name:'Валентина Семенова', what:'Свадебный каравай', stars:5, date:'июнь 2026', src:'Авито', text:'Каравай оказался очень красивым и вкусным, спасибо большое за работу, всё понравилось.' },
-  { name:'Марина', what:'Свадебный каравай', stars:5, date:'май 2026', src:'Авито', text:'Спасибо Наталье за такой чудесный каравай, очень вкусный, мягкий и ароматный. Рекомендую.' },
-  { name:'Настя', what:'Свадебный каравай', stars:5, date:'март 2026', src:'Авито', text:'Самый лучший каравай в моей жизни, по вкусу — великолепный сладкий хлеб (ароматный)…' },
-  { name:'Татьяна', what:'Свадебный каравай', stars:5, date:'октябрь 2025', src:'Авито', text:'Шикарный каравай и очень вкусный!!! Всем гостям очень понравился, съели всё!!! Сладкий, ароматный…' },
-  { name:'Екатерина', what:'Каравай', stars:5, date:'август 2025', src:'Авито', text:'Каравай к нашему мероприятию был великолепен, красиво упакован, и в итоге очень вкусный.' },
-  { name:'Ирина', what:'Каравай и хворост', stars:5, date:'июль 2025', src:'Авито', text:'Спасибо большое за очень вкусный, ароматный каравай и хрустящий нежный хворост! Заказ сделан вовремя, рекомендую!' },
-  { name:'Евгения', what:'Каравай', stars:5, date:'июль 2025', src:'Авито', text:'Спасибо большое за каравай! Очень вкусный, мы встречали подругу и съели его с удовольствием.' },
-  { name:'Ирина', what:'Свадебный каравай', stars:5, date:'февраль 2025', src:'Авито', text:'Очень красивый каравай, вкусный, доставлен вовремя. Спасибо большое Вам!' },
-  { name:'Ната', what:'Свадебный каравай', stars:5, date:'сентябрь 2024', src:'Авито', text:'Услуга оказана, каравай прекрасный 👍' },
+  { name:'Анна', what:'Свадебный каравай', stars:5, date:'июль 2026', text:'Заказывала каравай, Наталья быстро отвечала на сообщения, всё чётко и по делу, оперативно приняла заказ…' },
+  { name:'Валентина Семенова', what:'Свадебный каравай', stars:5, date:'июнь 2026', text:'Каравай оказался очень красивым и вкусным, спасибо большое за работу, всё понравилось.' },
+  { name:'Марина', what:'Свадебный каравай', stars:5, date:'май 2026', text:'Спасибо Наталье за такой чудесный каравай, очень вкусный, мягкий и ароматный. Рекомендую.' },
+  { name:'Настя', what:'Свадебный каравай', stars:5, date:'март 2026', text:'Самый лучший каравай в моей жизни, по вкусу — великолепный сладкий хлеб (ароматный)…' },
+  { name:'Татьяна', what:'Свадебный каравай', stars:5, date:'октябрь 2025', text:'Шикарный каравай и очень вкусный!!! Всем гостям очень понравился, съели всё!!! Сладкий, ароматный…' },
+  { name:'Екатерина', what:'Каравай', stars:5, date:'август 2025', text:'Каравай к нашему мероприятию был великолепен, красиво упакован, и в итоге очень вкусный.' },
+  { name:'Ирина', what:'Каравай и хворост', stars:5, date:'июль 2025', text:'Спасибо большое за очень вкусный, ароматный каравай и хрустящий нежный хворост! Заказ сделан вовремя, рекомендую!' },
+  { name:'Евгения', what:'Каравай', stars:5, date:'июль 2025', text:'Спасибо большое за каравай! Очень вкусный, мы встречали подругу и съели его с удовольствием.' },
+  { name:'Ирина', what:'Свадебный каравай', stars:5, date:'февраль 2025', text:'Очень красивый каравай, вкусный, доставлен вовремя. Спасибо большое Вам!' },
+  { name:'Ната', what:'Свадебный каравай', stars:5, date:'сентябрь 2024', text:'Услуга оказана, каравай прекрасный 👍' },
 ];
 const YANDEX_REVIEWS_URL = '';   // ссылка на карточку в Яндекс Картах (раздел отзывов); пусто — кнопка скрыта
 
@@ -1535,7 +1542,7 @@ const YANDEX_REVIEWS_URL = '';   // ссылка на карточку в Янд
     const SHOW = 4;
     const avg = (REVIEWS.reduce((s,r)=>s+r.stars,0)/REVIEWS.length).toFixed(1).replace('.',',');
     const n = REVIEWS.length, w = (n%10===1&&n%100!==11)?'отзыв':(n%10>=2&&n%10<=4&&(n%100<10||n%100>=20))?'отзыва':'отзывов';
-    const card = (r,i) => `<article class="rv-card"${i>=SHOW?' hidden':''}><div class="rv-top"><b>${esc(r.name)}</b><span class="rv-st" aria-label="Оценка ${r.stars} из 5">${'★'.repeat(r.stars)}${'☆'.repeat(5-r.stars)}</span></div><p class="rv-what">${esc(r.what||'')}${r.date?' · '+esc(r.date):''}${r.src?` · <span class="rv-src">отзыв с ${esc(r.src)}</span>`:''}</p><p>${esc(r.text)}</p></article>`;
+    const card = (r,i) => `<article class="rv-card"${i>=SHOW?' hidden':''}><div class="rv-top"><b>${esc(r.name)}</b><span class="rv-st" aria-label="Оценка ${r.stars} из 5">${'★'.repeat(r.stars)}${'☆'.repeat(5-r.stars)}</span></div><p class="rv-what">${esc(r.what||'')}${r.date?' · '+esc(r.date):''}</p><p>${esc(r.text)}</p></article>`;
     list.innerHTML = `<div class="rv-sum"><span class="rv-num">${avg}</span><span class="rv-st">★★★★★</span><span>${n} ${w} от клиентов</span></div>`
       + REVIEWS.map(card).join('')
       + (n>SHOW ? `<button type="button" class="btn btn-ghost rv-more" id="rvMore">Показать все отзывы (${n})</button>` : '');
