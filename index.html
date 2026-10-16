@@ -612,8 +612,9 @@ a.soc:hover,.foot-grid a.soc:hover{transform:translateY(-2px);box-shadow:0 6px 1
 @media (max-width:860px){.rv-layout{grid-template-columns:1fr}.rv-form{order:-1}}
 
 /* ---- сообщить об ошибке ---- */
-.bug-link{background:none;border:0;padding:0;margin:0 0 8px;font:inherit;font-weight:600;color:inherit;cursor:pointer;border-bottom:1px dashed currentColor;text-shadow:inherit}
-.bug-link:hover{color:var(--berry)}
+.bug-link{display:inline-flex;align-items:center;gap:8px;margin:0 0 14px;padding:8px 14px;border-radius:999px;border:1px solid rgba(214,59,82,.35);background:#fff;font:inherit;font-size:.88rem;font-weight:600;color:var(--icing);cursor:pointer;text-shadow:none;box-shadow:0 2px 8px rgba(46,27,18,.06);transition:border-color .15s,color .15s,transform .15s}
+.bug-link svg{color:var(--berry);flex:none}
+.bug-link:hover{border-color:var(--berry);color:var(--berry);transform:translateY(-1px)}
 .bug-back{position:fixed;inset:0;z-index:200;background:rgba(30,15,10,.45);display:grid;place-items:center;padding:16px}
 .bug-back[hidden]{display:none}
 .bug-box{position:relative;width:100%;max-width:440px;background:#fff;border-radius:22px;padding:28px 24px 20px;box-shadow:0 20px 60px rgba(30,15,10,.3);max-height:calc(100vh - 32px);overflow:auto}
@@ -960,7 +961,7 @@ a.soc:hover,.foot-grid a.soc:hover{transform:translateY(-2px);box-shadow:0 6px 1
         <span style="display:block;padding-top:10px">Ростов-на-Дону</span>
       </div>
     </div>
-    <div class="legal"><button type="button" class="bug-link" id="bugOpen">Нашли ошибку на сайте? Напишите нам</button><br><a href="privacy.html" style="border-bottom:1px solid var(--line)">Политика конфиденциальности</a><br>© Каравай и пряник · Наталия Бондаренко, 2026. Все изображения и тексты — собственность мастерской.</div>
+    <div class="legal"><button type="button" class="bug-link" id="bugOpen"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg><span>Нашли ошибку на сайте? Напишите нам</span></button><br><a href="privacy.html" style="border-bottom:1px solid var(--line)">Политика конфиденциальности</a><br>© Каравай и пряник · Наталия Бондаренко, 2026. Все изображения и тексты — собственность мастерской.</div>
   </div>
 </footer>
 
