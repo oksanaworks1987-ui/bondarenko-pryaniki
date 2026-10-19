@@ -973,7 +973,7 @@ a.soc:hover,.foot-grid a.soc:hover{transform:translateY(-2px);box-shadow:0 6px 1
     <button type="button" class="bug-x" id="bugClose" aria-label="Закрыть">×</button>
     <h3 id="bugTitle">Нашли ошибку?</h3>
     <p class="bug-sub">Опечатка, неверная цена, не открывается фото или кнопка не работает — напишите, я исправлю.</p>
-    <form id="bugForm" method="POST" action="https://formsubmit.co/89996984906natali@gmail.com" enctype="multipart/form-data" target="bugFrame">
+    <form id="bugForm" novalidate>
       <input type="hidden" name="_subject" value="Ошибка на сайте">
       <input type="hidden" name="_captcha" value="false">
       <input type="hidden" name="_template" value="table">
@@ -995,7 +995,6 @@ a.soc:hover,.foot-grid a.soc:hover{transform:translateY(-2px);box-shadow:0 6px 1
     <p class="bug-tip">Совет: выделите текст с ошибкой и нажмите Ctrl + Enter — окно откроется само.</p>
   </div>
 </div>
-<iframe name="bugFrame" id="bugFrame" title="Отправка сообщения" hidden></iframe>
 <!-- ================= ГАЛЕРЕЯ ================= -->
 <div class="view" id="view" role="dialog" aria-label="Фото товара">
   <div class="view-head">
@@ -1581,7 +1580,7 @@ document.getElementById('send').onclick = async () => {
         txt = document.getElementById('bug-text'), msgEl = document.getElementById('bugMsg'),
         btn = document.getElementById('bugSend'), file = document.getElementById('bug-shot'),
         prev = document.getElementById('bugPrev'), prevImg = document.getElementById('bugPrevImg'),
-        fname = document.getElementById('bugFileName'), frame = document.getElementById('bugFrame');
+        fname = document.getElementById('bugFileName');
   const LABEL = 'Прикрепить фото или скриншот';
   let sending = false;
   const resetFile = () => { file.value=''; prev.hidden = true; prevImg.removeAttribute('src'); fname.textContent = LABEL; };
@@ -1626,19 +1625,40 @@ document.getElementById('send').onclick = async () => {
     fname.textContent = 'Фото прикреплено — можно заменить';
   });
 
-  form.addEventListener('submit', e => {
-    if (txt.value.trim().length < 5){ e.preventDefault(); msgEl.className='form-msg err'; msgEl.textContent='Опишите, пожалуйста, что не так.'; return; }
+  // отправка как у заявок (AJAX) — «Спасибо» только если письмо реально ушло
+  const EMAIL_URL = 'https://formsubmit.co/ajax/89996984906natali@gmail.com';
+  const okResp = async (r) => { if (!r.ok) return false; try{ const j = await r.json(); return j.success === true || j.success === 'true'; }catch(e){ return true; } };
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    if (sending) return;
+    if (txt.value.trim().length < 5){ msgEl.className='form-msg err'; msgEl.textContent='Опишите, пожалуйста, что не так.'; return; }
     document.getElementById('bug-page').value = location.href;
     sending = true; btn.disabled = true; btn.textContent = 'Отправляю…';
     msgEl.className='form-msg'; msgEl.textContent='';
-  });
-  // форма уходит в скрытый iframe; когда он загрузился — письмо отправлено
-  frame.addEventListener('load', () => {
-    if (!sending) return;
+    const hasFile = !!(file.files && file.files[0]);
+    let sent = false;
+    try{
+      // 1) пробуем со скриншотом
+      sent = await okResp(await fetch(EMAIL_URL, {method:'POST', headers:{'Accept':'application/json'}, body:new FormData(form)}));
+    }catch(err){ sent = false; }
+    if (!sent){
+      // 2) запасной путь — только текст (как заявки, этот способ точно доходит)
+      try{
+        const data = {};
+        new FormData(form).forEach((v,k) => { if (typeof v === 'string') data[k] = v; });
+        if (hasFile) data['Скриншот'] = 'был прикреплён, но не загрузился — попросите прислать в WhatsApp';
+        sent = await okResp(await fetch(EMAIL_URL, {method:'POST', headers:{'Content-Type':'application/json','Accept':'application/json'}, body:JSON.stringify(data)}));
+      }catch(err){ sent = false; }
+    }
     sending = false; btn.disabled = false; btn.textContent = 'Отправить';
-    msgEl.className='form-msg'; msgEl.textContent='Спасибо! Сообщение отправлено, я всё проверю.';
-    form.reset(); resetFile();
-    setTimeout(close, 1800);
+    if (sent){
+      msgEl.className='form-msg'; msgEl.textContent='Спасибо! Сообщение отправлено, я всё проверю.';
+      form.reset(); resetFile();
+      setTimeout(close, 1800);
+    } else {
+      msgEl.className='form-msg err';
+      msgEl.innerHTML = 'Не получилось отправить. Напишите, пожалуйста, в WhatsApp <a href="https://wa.me/79996984906" target="_blank" rel="noopener">+7 (999) 698-49-06</a>.';
+    }
   });
 })();
 /* ================= ОТЗЫВЫ =================
