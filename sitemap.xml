@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://bondarenko-pryaniki.ru/</loc>
-    <lastmod>2026-10-19</lastmod>
+    <lastmod>2026-10-30</lastmod>
     <priority>1.0</priority>
     <image:image><image:loc>https://bondarenko-pryaniki.ru/images/karavay-1.jpg</image:loc></image:image>
     <image:image><image:loc>https://bondarenko-pryaniki.ru/images/karavay-3.jpg</image:loc></image:image>
@@ -90,6 +90,11 @@
     <image:image><image:loc>https://bondarenko-pryaniki.ru/images/karavay-polyana-1.jpg</image:loc></image:image>
     <image:image><image:loc>https://bondarenko-pryaniki.ru/images/karavay-polyana-2.jpg</image:loc></image:image>
     <image:image><image:loc>https://bondarenko-pryaniki.ru/images/karavay-sinie-rozy-1.jpg</image:loc></image:image>
+    <image:image><image:loc>https://bondarenko-pryaniki.ru/images/karavay-kolosya-1.jpg</image:loc></image:image>
+    <image:image><image:loc>https://bondarenko-pryaniki.ru/images/karavay-kalina-belye-rozy-1.jpg</image:loc></image:image>
+    <image:image><image:loc>https://bondarenko-pryaniki.ru/images/karavay-kalina-belye-rozy-2.jpg</image:loc></image:image>
+    <image:image><image:loc>https://bondarenko-pryaniki.ru/images/kapkeyki-novogodnie-1.jpg</image:loc></image:image>
+    <image:image><image:loc>https://bondarenko-pryaniki.ru/images/kapkeyki-novogodnie-2.jpg</image:loc></image:image>
   </url>
   <url><loc>https://bondarenko-pryaniki.ru/privacy.html</loc><lastmod>2026-10-07</lastmod><priority>0.2</priority></url>
 </urlset>
