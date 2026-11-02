@@ -45,7 +45,8 @@ section[id],div[id],h2[id]{scroll-margin-top:86px}
 html{background:var(--molasses)}
 body::before{
   content:"";position:fixed;inset:0;z-index:-3;
-  background:url('images/bg.jpg') right top/cover no-repeat;
+  /* Новогодний фон (после праздников вернуть: url('images/bg.jpg') right top/cover no-repeat;) */
+  background:linear-gradient(90deg, rgba(255,247,236,.82) 0%, rgba(255,247,236,.55) 42%, rgba(255,247,236,0) 68%), url('images/domik-4.jpg') right top/cover no-repeat;
 }
 body{
   margin:0;color:var(--icing);
@@ -467,7 +468,7 @@ img,svg{max-width:100%}
   body::before{
     background:
       linear-gradient(rgba(255,247,236,.62), rgba(255,247,236,.62)),
-      url('images/bg.jpg') center top/cover no-repeat;
+      url('images/domik-4.jpg') center top/cover no-repeat;
   }
   .wrap{padding:0 18px}
   .sec{padding:44px 0}
@@ -1198,6 +1199,18 @@ const PRODUCTS = [
   {id:48, name:'Новогодние капкейки', cat:'holidays', shape:'tree', price:null, priceText:'220 ₽/шт.', badge:'Новинка', isNew:true,
    imgs:['images/kapkeyki-novogodnie-2.jpg','images/kapkeyki-novogodnie-1.jpg'],
    desc:'Нежный творожный кекс с шоколадной начинкой и кремовым декором ручной работы: пуансеттии в красном и белом, рождественские венки с бусинами и золотые розы. Поштучно — 220 ₽. Набор в подарочной коробке с лентой и зимним декором — 2500 ₽. Красивый сладкий подарок к Новому году.'},
+  {id:49, name:'Пирожное «Картошка» — Красная шапочка', cat:'holidays', shape:'tree', price:null, badge:'Новинка', isNew:true, priceText:'250 ₽/шт.',
+   imgs:['images/kartoshka-shapochka-1.jpg'],
+   desc:'Классическая шоколадная «Картошка» в новогоднем оформлении: красный кремовый колпачок Деда Мороза с белой опушкой и помпоном. Порционное пирожное в бумажной капсуле — на праздничный стол и в подарок.'},
+  {id:50, name:'Капкейк «Ёлочка»', cat:'holidays', shape:'tree', price:null, badge:'Новинка', isNew:true, priceText:'250 ₽/шт.',
+   imgs:['images/kartoshka-elochka-1.jpg'],
+   desc:'Нежный творожный кекс с шоколадной крошкой, а сверху — пышная зелёная кремовая ёлочка с разноцветными сахарными бусинами и золотым шариком на макушке, по краю — белая кремовая «снежная» опушка. Капкейк в бумажной капсуле.'},
+  {id:51, name:'Пирожное «Картошка» — Шишка', cat:'holidays', shape:'tree', price:null, badge:'Новинка', isNew:true, priceText:'250 ₽/шт.',
+   imgs:['images/kartoshka-shishka-1.jpg'],
+   desc:'Шоколадная «Картошка» в виде лесной шишки: чешуйки из шоколадного крема и лёгкая «снежная» посыпка сахарной пудрой. Порционное пирожное в бумажной капсуле.'},
+  {id:52, name:'Пирожное «Картошка» — Ёлочка с шишками', cat:'holidays', shape:'tree', price:null, badge:'Новинка', isNew:true, priceText:'350 ₽/шт.',
+   imgs:['images/kartoshka-elochka-shishki-1.jpg'],
+   desc:'Новогодняя композиция на золотом поддоне: кремовая ёлочка с бусинами и две шоколадные шишки-«картошки». Нарядный сладкий подарок к Новому году.'},
   {id:29, name:'Букет в горшочке', cat:'bouquets', shape:'tree', price:null, priceText:'1300 ₽', badge:'Новинка', isNew:true,
    imgs:['images/buket-gorshok-1.jpg'],
    desc:'Цветы и листья из расписных пряников в декоративном горшочке с голубой лентой: красный цветок, белая лилия, голубые и белые цветы с золотыми акцентами. Подарок, который не завянет, — его можно съесть.'},
@@ -1811,6 +1824,25 @@ function loadMetrika(){
   }
   document.getElementById('ckOk').onclick=function(){ done('yes'); };
   document.getElementById('ckNo').onclick=function(){ done('no'); };
+})();
+</script>
+
+<!-- ===== Новогодний снег (убрать после праздников) ===== -->
+<canvas id="nySnow" aria-hidden="true" style="position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:55"></canvas>
+<script>
+(function(){
+  if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  var c=document.getElementById('nySnow'),x=c.getContext('2d'),W,H,f=[],n;
+  function size(){W=c.width=innerWidth;H=c.height=innerHeight;n=W<700?35:70;
+    while(f.length<n)f.push(mk(true));f.length=n;}
+  function mk(r){return{x:Math.random()*W,y:r?Math.random()*H:-10,r:1+Math.random()*2.6,s:.3+Math.random()*.9,d:Math.random()*6.28,o:.45+Math.random()*.5}}
+  function step(){x.clearRect(0,0,W,H);
+    for(var i=0;i<f.length;i++){var p=f[i];p.y+=p.s;p.d+=.01;p.x+=Math.sin(p.d)*.4;
+      if(p.y>H+10)f[i]=mk(false);
+      x.beginPath();x.arc(p.x,p.y,p.r,0,6.28);x.fillStyle='rgba(255,255,255,'+p.o+')';
+      x.shadowColor='rgba(180,200,230,.6)';x.shadowBlur=3;x.fill();}
+    requestAnimationFrame(step);}
+  addEventListener('resize',size);size();step();
 })();
 </script>
 
