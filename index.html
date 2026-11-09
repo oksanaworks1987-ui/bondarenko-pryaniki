@@ -325,7 +325,10 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
 .card:has(.card-top.off) .shot img{filter:grayscale(.55) opacity(.85)}
 .card-top.stock::before{background:var(--mint)}
 .shot{aspect-ratio:1/1;background:var(--tile);display:grid;place-items:center;position:relative;overflow:hidden}
-.shot img{width:100%;height:100%;object-fit:cover}
+.shot img,.shot video{width:100%;height:100%;object-fit:cover;display:block}
+.vplay{position:absolute;right:10px;bottom:10px;background:rgba(42,26,18,.75);color:#fff;font-size:.78rem;font-weight:700;padding:4px 10px;border-radius:999px;pointer-events:none}
+.view-stage video{max-width:100%;max-height:100%;border-radius:14px;background:#000}
+.view-text{max-width:720px;margin:0 auto 10px;color:var(--icing);background:#fff;border-radius:12px;box-shadow:0 2px 10px rgba(0,0,0,.08);padding:10px 14px;font-size:.95rem;line-height:1.55;white-space:pre-line;max-height:30vh;overflow:auto}
 .shot svg{width:62%;height:62%}
 .badge{
   position:absolute;top:12px;left:12px;padding:5px 11px;border-radius:999px;
@@ -999,9 +1002,11 @@ a.soc:hover,.foot-grid a.soc:hover{transform:translateY(-2px);box-shadow:0 6px 1
   <div class="view-stage">
     <button class="arrow" id="viewPrev" aria-label="Предыдущее фото">‹</button>
     <img id="viewImg" alt="">
+    <video id="viewVid" controls playsinline preload="metadata" style="display:none"></video>
     <button class="arrow" id="viewNext" aria-label="Следующее фото">›</button>
   </div>
   <div class="thumbs" id="viewThumbs"></div>
+  <div class="view-text" id="viewText" style="display:none"></div>
 </div>
 
 <!-- ================= КОРЗИНА ================= -->
@@ -1042,6 +1047,10 @@ const CATS = [
 ];
 
 const PRODUCTS = [
+  {id:53, name:'Новогодние пряничные домики — лимитированная коллекция', cat:'holidays', shape:'house', price:null, badge:'Новинка', isNew:true,
+   video:'images/domiki-novyi-god.mp4', imgs:['images/domiki-novyi-god-poster.jpg'],
+   desc:'Три дизайна и три размера на выбор. Каждый домик собираю вручную и упаковываю в прозрачную бумагу или в коробку с атласной лентой. Нажмите на видео — там полное описание. На видео дизайн прошлого года.',
+   full:"Приближается самый волшебный праздник, который для многих из нас — настоящая сказка детства — Новый год 🎄.\nЯ обожаю это время за снег, мерцание гирлянд, подарки и ту самую атмосферу, которая навсегда в сердце. И я знаю, как сделать её ещё вкуснее.\nВ этом году я испеку для вас лимитированную коллекцию новогодних пряничных домиков 🏠 Это не просто подарок, а настоящее съедобное украшение, которое возвращает взрослых в тёплые воспоминания, а детей приводит в восторг.\nВ коллекции — три разных дизайна и три размера на выбор. Каждый домик собирается вручную и упаковывается в прозрачную упаковочную бумагу или по желанию в коробку с атласной лентой, чтобы его было удобно дарить.\nЕсли вы в поиске подарка 🎁 для близких, коллег или руководителя — доверьтесь моему 15-летнему опыту. Я знаю, как превратить пряник в произведение искусства, которое будет долго-долго радовать глаз и останется мягким и вкусным. Напишите мне, и мы подберём ваш идеальный домик.\nНа видео дизайн прошлого года, новый на данный момент в процессе разработки."},
   {id:20, name:'Каравай свадебный', cat:'bread', shape:'loaf', price:null, priceText:'950 ₽/кг', badge:'Хит',
    imgs:['images/karavay-1.jpg','images/karavay-3.jpg','images/karavay-4.jpg','images/karavay-5.jpg',
          'images/karavay-6.jpg','images/karavay-7.jpg','images/karavay-2.jpg'],
@@ -1256,6 +1265,7 @@ function placeholder(shape){
     <g fill="#C98D4E">${s}</g><g fill="#FFFBF3" stroke="#FFFBF3" stroke-linecap="round">${i}</g></svg>`;
 }
 function shot(p){
+  if(p.video) return `<video src="${p.video}" poster="${p.imgs[0]}" muted loop autoplay playsinline preload="metadata" aria-label="${p.name} — видео"></video><span class="vplay">▶ Видео</span>`;
   return (p.imgs && p.imgs.length)
     ? `<img src="${p.imgs[0]}" alt="${p.name} на заказ, Ростов-на-Дону — Наталия Бондаренко" loading="lazy">`
     : placeholder(p.shape);
@@ -1481,6 +1491,18 @@ function openView(id){
   if(!p || !p.imgs || !p.imgs.length) return;
   vList = p.imgs; vIdx = 0;
   vTitle.textContent = p.name;
+  const vv = document.getElementById('viewVid'), vt = document.getElementById('viewText');
+  if(p.video){
+    vImg.style.display='none'; vv.style.display=''; vv.src=p.video; vv.poster=p.imgs[0];
+    vt.textContent = p.full || p.desc; vt.style.display='';
+    vThumbs.innerHTML='';
+    document.getElementById('viewPrev').style.visibility='hidden';
+    document.getElementById('viewNext').style.visibility='hidden';
+    view.classList.add('on'); document.body.style.overflow='hidden';
+    vv.play().catch(()=>{});
+    return;
+  }
+  vImg.style.display=''; vv.style.display='none'; vv.pause(); vv.removeAttribute('src'); vt.style.display='none';
   vThumbs.innerHTML = vList.length > 1
     ? vList.map((src,i) => `<button data-i="${i}"><img src="${src}" alt=""></button>`).join('') : '';
   document.getElementById('viewPrev').style.visibility = vList.length > 1 ? 'visible' : 'hidden';
@@ -1495,7 +1517,7 @@ function showFrame(i){
   vImg.alt = vTitle.textContent;
   vThumbs.querySelectorAll('button').forEach((b,n) => b.classList.toggle('on', n === vIdx));
 }
-function closeView(){ view.classList.remove('on'); document.body.style.overflow = ''; }
+function closeView(){ view.classList.remove('on'); document.body.style.overflow = ''; const vv=document.getElementById('viewVid'); vv.pause(); }
 
 document.getElementById('viewPrev').onclick  = () => showFrame(vIdx - 1);
 document.getElementById('viewNext').onclick  = () => showFrame(vIdx + 1);
