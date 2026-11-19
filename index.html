@@ -359,6 +359,11 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
 /* ============================================================
    КОРПОРАТИВ / МАСТЕР-КЛАСС
    ============================================================ */
+.ny-corp{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:stretch}
+.ny-corp .ny-img{border-radius:22px;overflow:hidden;box-shadow:var(--shadow);background:#fff}
+.ny-corp .ny-img img{display:block;width:100%;height:100%;object-fit:cover}
+.ny-corp .panel{display:flex;flex-direction:column;justify-content:center}
+@media (max-width:900px){.ny-corp{grid-template-columns:1fr}}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:20px}
 .panel{padding:36px 34px;border-radius:22px;border:1px solid var(--line);background:var(--molasses-2);box-shadow:var(--shadow)}
 .panel.accent{background:linear-gradient(155deg,#FFEFD9 0%,#FFE2E6 55%,#F6E4FA 100%);border-color:rgba(214,59,82,.22)}
@@ -814,6 +819,20 @@ a.soc:hover,.foot-grid a.soc:hover{transform:translateY(-2px);box-shadow:0 6px 1
   </div>
 </section>
 
+<!-- ================= НОВОГОДНИЙ КОРПОРАТИВ ================= -->
+<section class="sec" id="ny-corp">
+  <div class="wrap ny-corp">
+    <div class="ny-img"><img src="images/korporativ-kollazh.jpg" alt="Новогодние пряники с логотипом для корпоратива: пряники с пищевой печатью, упаковка с лентами и заготовки" loading="lazy"></div>
+    <div class="panel accent">
+      <h2>Новогодние пряники для корпоратива</h2>
+      <p>Новый год всё ближе, и самое время порадовать коллег и партнёров. Мои имбирные пряники ручной работы упакованы в прозрачную плёнку с лентой и создают праздничное настроение. Это корпоративные подарки, на них может быть и ваш логотип.</p>
+      <p>Логотип наношу пищевой печатью: изображение получается чётким и ярким, а пряник остаётся полностью съедобным. Пряники хранятся до 6 месяцев, поэтому их удобно заказать заранее и раздать всей команде. Тираж от 10 штук, новогодние заказы принимаю до 1 декабря.</p>
+      <p><b>Цена — от 150 ₽ за штуку.</b></p>
+      <div><a href="#order" class="btn btn-fill">Запросить расчёт</a></div>
+    </div>
+  </div>
+</section>
+
 <!-- ================= КОРПОРАТИВ + МАСТЕР-КЛАСС ================= -->
 <section class="sec">
   <div class="wrap two">
@@ -1047,6 +1066,9 @@ const CATS = [
 ];
 
 const PRODUCTS = [
+  {id:56, name:'Пряники с логотипом — корпоративные подарки', cat:'custom', shape:'star', price:null, priceText:'от 150 ₽/шт.', badge:'Новинка', isNew:true,
+   imgs:['images/korporativ-kollazh.jpg','images/korporativ-pryaniki-2.jpg','images/korporativ-pryaniki-3.jpg'],
+   desc:'Логотип наношу пищевой печатью — чётко и ярко, пряник остаётся полностью съедобным. Стоимость зависит от размера пряника и сложности макета. Тираж от 10 штук.'},
   {id:53, name:'Новогодние пряничные домики — лимитированная коллекция', cat:'holidays', shape:'house', price:null, badge:'Новинка', isNew:true,
    video:'images/domiki-novyi-god.mp4', imgs:['images/domiki-novyi-god-poster.jpg'],
    desc:'Три дизайна и три размера на выбор. Каждый домик собираю вручную и упаковываю в прозрачную бумагу или в коробку с атласной лентой. Нажмите на видео — там полное описание. На видео дизайн прошлого года.',
